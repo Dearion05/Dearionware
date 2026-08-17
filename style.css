@@ -1,0 +1,414 @@
+/* ---------------------------------------------
+   Tokens
+--------------------------------------------- */
+:root {
+  --bg: #0B0F0C;
+  --bg-raised: #121913;
+  --line: #24322A;
+  --text: #EDEFEA;
+  --text-muted: #8B978E;
+  --signal: #5FEA9A;
+  --signal-dim: #3A8F63;
+  --amber: #E8A33D;
+
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body: 'IBM Plex Sans', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+
+  --spine-x: 28px;
+  --content-max: 780px;
+}
+
+@media (min-width: 720px) {
+  :root { --spine-x: 48px; }
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.mono { font-family: var(--font-mono); }
+
+a { color: inherit; }
+
+::selection { background: var(--signal-dim); color: var(--bg); }
+
+/* visible keyboard focus */
+a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: 3px;
+}
+
+/* ---------------------------------------------
+   Signal spine (signature element)
+--------------------------------------------- */
+.signal-spine {
+  position: absolute;
+  top: 0;
+  left: var(--spine-x);
+  width: 2px;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ---------------------------------------------
+   Hero
+--------------------------------------------- */
+.hero {
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding: 0 24px;
+  border-bottom: 1px solid var(--line);
+}
+
+.hero-inner {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding-left: calc(var(--spine-x) - 12px);
+  width: 100%;
+}
+
+.eyebrow {
+  color: var(--signal);
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  margin: 0 0 18px;
+}
+
+.eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: var(--signal);
+  border-radius: 50%;
+  margin-right: 10px;
+  box-shadow: 0 0 8px var(--signal);
+}
+
+.hero-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(3rem, 12vw, 6.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  margin: 0 0 24px;
+}
+
+.hero-role {
+  font-size: clamp(1rem, 2.4vw, 1.3rem);
+  color: var(--text-muted);
+  margin: 0 0 28px;
+  min-height: 1.6em;
+}
+
+.cursor {
+  color: var(--signal);
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+.hero-meta { margin-bottom: 44px; }
+
+.clearance-tag {
+  display: inline-block;
+  border: 1px solid var(--signal-dim);
+  color: var(--signal);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  padding: 8px 14px;
+  border-radius: 2px;
+  background: rgba(95, 234, 154, 0.06);
+}
+
+.hero-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px 28px;
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+}
+
+.hero-nav a {
+  text-decoration: none;
+  color: var(--text-muted);
+  position: relative;
+  padding-bottom: 4px;
+  transition: color 0.2s ease;
+}
+
+.hero-nav a:hover,
+.hero-nav a:focus-visible {
+  color: var(--signal);
+}
+
+.hero-nav a::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 0;
+  height: 1px;
+  background: var(--signal);
+  transition: width 0.2s ease;
+}
+
+.hero-nav a:hover::after,
+.hero-nav a:focus-visible::after {
+  width: 100%;
+}
+
+/* ---------------------------------------------
+   Sections + checkpoints
+--------------------------------------------- */
+main { position: relative; z-index: 1; }
+
+.section {
+  position: relative;
+  padding: 90px 24px 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+.section-inner {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding-left: calc(var(--spine-x) - 12px);
+}
+
+.checkpoint {
+  position: absolute;
+  left: var(--spine-x);
+  top: 90px;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 2px solid var(--signal);
+  box-shadow: 0 0 0 4px var(--bg), 0 0 10px rgba(95,234,154,0.5);
+}
+
+.checkpoint::after {
+  content: attr(data-label);
+  position: absolute;
+  left: 24px;
+  top: -3px;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  color: var(--signal-dim);
+  white-space: nowrap;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  margin: 0 0 28px;
+  font-weight: 600;
+}
+
+.summary-text {
+  font-size: 1.05rem;
+  color: var(--text);
+  max-width: 62ch;
+  margin-top: 36px;
+}
+
+/* ---------------------------------------------
+   Log entries (experience / education)
+--------------------------------------------- */
+.log-entry {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 6px;
+  padding: 24px 0;
+  border-top: 1px solid var(--line);
+}
+
+.log-entry:first-of-type { border-top: none; }
+
+@media (min-width: 640px) {
+  .log-entry {
+    grid-template-columns: 200px 1fr;
+    gap: 24px;
+  }
+}
+
+.log-time {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  padding-top: 4px;
+}
+
+.log-status {
+  color: var(--signal);
+}
+
+.log-status::before {
+  content: '● ';
+}
+
+.log-body h3 {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  margin: 0 0 6px;
+  font-weight: 600;
+}
+
+.tag {
+  font-size: 0.68rem;
+  color: var(--bg);
+  background: var(--signal);
+  padding: 2px 7px;
+  border-radius: 3px;
+  vertical-align: middle;
+  margin-left: 8px;
+}
+
+.log-org {
+  color: var(--text-muted);
+  margin: 0 0 14px;
+  font-size: 0.92rem;
+}
+
+.log-body ul {
+  margin: 0;
+  padding-left: 1.2em;
+}
+
+.log-body li {
+  margin-bottom: 8px;
+  color: var(--text);
+}
+
+/* ---------------------------------------------
+   Skills
+--------------------------------------------- */
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  margin-top: 36px;
+}
+
+@media (min-width: 640px) {
+  .skills-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+.skill-group-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  color: var(--signal);
+  margin: 0 0 16px;
+}
+
+.skill-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.skill-list li {
+  padding: 9px 0;
+  border-top: 1px solid var(--line);
+  font-size: 0.95rem;
+}
+
+.skill-list li:last-child { border-bottom: 1px solid var(--line); }
+
+/* ---------------------------------------------
+   Empty state (projects)
+--------------------------------------------- */
+.empty-state {
+  margin-top: 36px;
+  border: 1px dashed var(--line);
+  border-radius: 4px;
+  padding: 32px 28px;
+  color: var(--text-muted);
+}
+
+.empty-label {
+  color: var(--amber);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  margin: 0 0 10px;
+}
+
+.empty-state p:last-child { margin-bottom: 0; }
+
+/* ---------------------------------------------
+   Contact / footer
+--------------------------------------------- */
+.contact {
+  padding: 90px 24px 60px;
+  position: relative;
+  z-index: 1;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin: 36px 0 60px;
+  max-width: 480px;
+}
+
+.contact-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  text-decoration: none;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.contact-link:hover,
+.contact-link:focus-visible {
+  border-color: var(--signal-dim);
+  background: rgba(95, 234, 154, 0.05);
+}
+
+.contact-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  color: var(--text-muted);
+}
+
+.contact-value {
+  font-size: 0.88rem;
+  color: var(--signal);
+}
+
+.footer-sign {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--text-muted);
+  text-align: center;
+  opacity: 0.6;
+}
